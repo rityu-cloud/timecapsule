@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/src/functions.php';
-require_once __DIR__ . '/src/handler.php';
+require_once __DIR__ . '/../src/functions.php';
+require_once __DIR__ . '/../src/handler.php';
 
-$dataFile = __DIR__ . '/data.json';
-$transactions = loadTransactions($dataFile);
-$message = handleTransactionForm($transactions, $dataFile);
+$transactions = loadTransactions();
+
+$message = handleTransactionForm($transactions);
 
 $preparedTransactions = [];
 foreach ($transactions as $transaction) {
@@ -22,4 +22,4 @@ $transactionsByDate = sortTransactionsByDate($transactions);
 $transactionsByAmount = sortTransactionsByAmount($transactions);
 
 $title = 'Native PHP Transactions';
-require __DIR__ . '/templates/page.php';
+require __DIR__ . '/../templates/page.php';

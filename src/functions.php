@@ -2,26 +2,22 @@
 
 declare(strict_types=1);
 
-function loadTransactions(string $fileName): array
+require_once __DIR__ . '/db.php';
+
+
+function loadTransactions(): array
 {
-    if (!file_exists($fileName)) {
-        return [];
-    }
+    $db = getDb();
 
-    $json = file_get_contents($fileName);
-    $transactions = json_decode((string)$json, true);
+    $statement = $db->query(
+        'SELECT id, date, amount, description, merchant
+         FROM transactions
+         ORDER BY id'
+    );
 
-    if (!is_array($transactions)) {
-        return [];
-    }
-
-    return $transactions;
+    return $statement->fetchAll();
 }
 
-function saveTransactions(string $fileName, array $transactions): void
-{
-    file_put_contents($fileName, json_encode($transactions, JSON_PRETTY_PRINT));
-}
 
 function calculateTotalAmount(array $transactions): float
 {
@@ -34,12 +30,20 @@ function calculateTotalAmount(array $transactions): float
     return $totalAmount;
 }
 
-function findTransactionByDescription(array $transactions, string $descriptionPart): array
-{
+
+function findTransactionByDescription(
+    array $transactions,
+    string $descriptionPart
+): array {
     $suitableTransactions = [];
 
     foreach ($transactions as $transaction) {
-        if (stripos($transaction['description'], $descriptionPart) !== false) {
+        if (
+            stripos(
+                (string)$transaction['description'],
+                $descriptionPart
+            ) !== false
+        ) {
             $suitableTransactions[] = $transaction;
         }
     }
@@ -47,8 +51,11 @@ function findTransactionByDescription(array $transactions, string $descriptionPa
     return $suitableTransactions;
 }
 
-function findTransactionById(array $transactions, int $id): ?array
-{
+
+function findTransactionById(
+    array $transactions,
+    int $id
+): ?array {
     foreach ($transactions as $transaction) {
         if ((int)$transaction['id'] === $id) {
             return $transaction;
@@ -58,59 +65,107 @@ function findTransactionById(array $transactions, int $id): ?array
     return null;
 }
 
+
 function daysSinceTransaction(string $date): int
 {
     $tz = ini_get('date.timezone') ?: 'Europe/Chisinau';
+
     $dtz = new DateTimeZone($tz);
+
     $currentDate = new DateTime('now', $dtz);
     $transactionDate = new DateTime($date, $dtz);
 
     return (int)$transactionDate->diff($currentDate)->days;
 }
 
-function addTransaction(array &$transactions, array $newTransaction): string
-{
-    foreach ($transactions as $transaction) {
-        if ((int)$transaction['id'] === (int)$newTransaction['id']) {
-            return 'Tranzakciya s takim id uzhe est';
-        }
+
+function addTransaction(
+    array &$transactions,
+    array $newTransaction
+): string {
+    $db = getDb();
+
+
+    $check = $db->prepare(
+        'SELECT id
+         FROM transactions
+         WHERE id = :id'
+    );
+
+    $check->execute([
+        'id' => (int)$newTransaction['id']
+    ]);
+
+    if ($check->fetch()) {
+        return 'Tranzakciya s takim id uzhe est';
     }
+    $insert = $db->prepare(
+        'INSERT INTO transactions
+            (id, date, amount, description, merchant)
+         VALUES
+            (:id, :date, :amount, :description, :merchant)'
+    );
+
+    $insert->execute([
+        'id' => (int)$newTransaction['id'],
+        'date' => $newTransaction['date'],
+        'amount' => (float)$newTransaction['amount'],
+        'description' => $newTransaction['description'],
+        'merchant' => $newTransaction['merchant'],
+    ]);
 
     $transactions[] = $newTransaction;
 
     return 'Tranzakciya dobavlena';
 }
 
+
 function sortTransactionsByDate(array $transactions): array
 {
-    usort($transactions, function (array $first, array $second): int {
-        $firstDate = new DateTime($first['date']);
-        $secondDate = new DateTime($second['date']);
+    usort(
+        $transactions,
+        function (
+            array $first,
+            array $second
+        ): int {
+            $firstDate = new DateTime($first['date']);
+            $secondDate = new DateTime($second['date']);
 
-        if ($firstDate > $secondDate) {
-            return 1;
-        } elseif ($secondDate > $firstDate) {
-            return -1;
+            if ($firstDate > $secondDate) {
+                return 1;
+            }
+
+            if ($secondDate > $firstDate) {
+                return -1;
+            }
+
+            return 0;
         }
-
-        return 0;
-    });
+    );
 
     return $transactions;
 }
+
 
 function sortTransactionsByAmount(array $transactions): array
 {
-    usort($transactions, function (array $first, array $second): int {
-        if ($first['amount'] > $second['amount']) {
-            return 1;
-        } elseif ($second['amount'] > $first['amount']) {
-            return -1;
-        }
+    usort(
+        $transactions,
+        function (
+            array $first,
+            array $second
+        ): int {
+            if ($first['amount'] > $second['amount']) {
+                return 1;
+            }
 
-        return 0;
-    });
+            if ($second['amount'] > $first['amount']) {
+                return -1;
+            }
+
+            return 0;
+        }
+    );
 
     return $transactions;
 }
-

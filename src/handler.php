@@ -2,22 +2,19 @@
 
 declare(strict_types=1);
 
-function handleTransactionForm(array &$transactions, string $dataFile): ?string
+function handleTransactionForm(array &$transactions): ?string
 {
     if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
         return null;
     }
 
     $newTransaction = [
-        'id' => (int)$_POST['id'],
-        'date' => $_POST['date'],
-        'amount' => (float)$_POST['amount'],
-        'description' => trim((string)$_POST['description']),
-        'merchant' => trim((string)$_POST['merchant']),
+        'id' => (int)($_POST['id'] ?? 0),
+        'date' => (string)($_POST['date'] ?? ''),
+        'amount' => (float)($_POST['amount'] ?? 0),
+        'description' => trim((string)($_POST['description'] ?? '')),
+        'merchant' => trim((string)($_POST['merchant'] ?? '')),
     ];
 
-    $message = addTransaction($transactions, $newTransaction);
-    saveTransactions($dataFile, $transactions);
-
-    return $message;
+    return addTransaction($transactions, $newTransaction);
 }
