@@ -1,100 +1,66 @@
 body {
     margin: 0;
-    padding: 40px;
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #00b4db, #0083b0);
+    background: #f4f4f4;
     color: #222;
 }
 
-main,
 .container {
     max-width: 1100px;
     margin: 0 auto;
+    padding: 24px;
 }
 
-h1 {
-    color: white;
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-h2 {
-    color: #0083b0;
-}
-
-section,
-.card,
-table {
-    background: white;
-    border-radius: 16px;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.18);
+button {
+    padding: 8px 12px;
+    border: 1px solid #222;
+    background: #fff;
+    color: #222;
+    text-decoration: none;
+    cursor: pointer;
 }
 
 section,
-.card {
-    padding: 25px;
-    margin-bottom: 25px;
+.transaction-form {
+    margin: 18px 0;
+}
+
+.transaction-form {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 10px;
+    max-width: 520px;
+}
+
+.transaction-form button {
+    grid-column: 2;
+}
+
+input {
+    padding: 7px;
+    border: 1px solid #aaa;
 }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    overflow: hidden;
+    background: #fff;
 }
 
-th {
-    background: #0083b0;
-    color: white;
-    padding: 14px;
+th,
+td {
+    padding: 8px;
+    border: 1px solid #999;
     text-align: left;
 }
 
-td {
-    padding: 12px;
-    border-bottom: 1px solid #e5e5e5;
+th {
+    background: #e7e7e7;
 }
 
-tr:hover {
-    background: #e9faff;
-}
-
-button,
-input[type="submit"] {
-    background: #0083b0;
-    color: white;
-    border: none;
-    padding: 11px 20px;
-    border-radius: 9px;
-    cursor: pointer;
-    transition: 0.2s;
-}
-
-button:hover,
-input[type="submit"]:hover {
-    background: #005f7f;
-    transform: translateY(-1px);
-}
-
-input,
-textarea,
-select {
-    padding: 10px;
-    border: 1px solid #bbb;
-    border-radius: 7px;
-}
-
-input:focus,
-textarea:focus,
-select:focus {
-    outline: none;
-    border-color: #00b4db;
-    box-shadow: 0 0 0 3px rgba(0, 180, 219, 0.15);
-}
-
-a {
-    color: #0083b0;
-}
-
-a:hover {
-    color: #005f7f;
+.message {
+    display: inline-block;
+    padding: 8px 12px;
+    border: 1px solid #888;
+    background: #fff;
 }
