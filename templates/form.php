@@ -1,0 +1,23 @@
+<?php if ($message !== null) { ?>
+    <p class="message"><?php echo htmlspecialchars($message); ?></p>
+<?php } ?>
+
+<form method="post" class="transaction-form">
+    <label>ID</label>
+    <input type="number" name="id" required>
+
+    <label>Date</label>
+    <input type="date" name="date" required>
+
+    <label>Amount</label>
+    <input type="number" step="0.01" name="amount" required>
+
+    <label>Description</label>
+    <input type="text" name="description" required>
+
+    <label>Merchant</label>
+    <input type="text" name="merchant" required>
+
+    <button type="submit">Add Transaction</button>
+</form>
+

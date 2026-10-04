@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "date": "2019-01-01",
+    "amount": 100,
+    "description": "Kupili chto to tam",
+    "merchant": "torgovec_1"
+  },
+  {
+    "id": 2,
+    "date": "2019-01-03",
+    "amount": 45.5,
+    "description": "Kupili chto to tut",
+    "merchant": "torgovec_2"
+  },
+  {
+    "id": 3,
+    "date": "2019-01-15",
+    "amount": 230,
+    "description": "Strizhechka",
+    "merchant": "torgovec_1"
+  },
+  {
+    "id": 4,
+    "date": "2019-01-07",
+    "amount": 32.99,
+    "description": "Kupili kofeek",
+    "merchant": "torgovec_3"
+  },
+  {
+    "id": 5,
+    "date": "2019-01-10",
+    "amount": 75.25,
+    "description": "Igry na stim",
+    "merchant": "torgovec_2"
+  },
+  {
+    "id": 6,
+    "date": "2019-01-12",
+    "amount": 140.99,
+    "description": "Kupili gpt plus",
+    "merchant": "torgovec_4"
+  },
+  {
+    "id": 7,
+    "date": "2019-01-15",
+    "amount": 150,
+    "description": "Scheta za gaz",
+    "merchant": "torgovec_3"
+  },
+  {
+    "id": 8,
+    "date": "2019-01-12",
+    "amount": 160.4,
+    "description": "Knizhechkiiiii",
+    "merchant": "torgovec_5"
+  },
+  {
+    "id": 9,
+    "date": "2019-01-20",
+    "amount": 89.9,
+    "description": "Poeli shavy",
+    "merchant": "torgovec_1"
+  },
+  {
+    "id": 10,
+    "date": "2019-01-05",
+    "amount": 34.75,
+    "description": "Zapili shavu",
+    "merchant": "torgovec_4"
+  }
+]

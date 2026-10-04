@@ -1,0 +1,6 @@
+{
+    "name": "dashika/test",
+    "require": {
+        "twig/twig": "^3.24"
+    }
+}
