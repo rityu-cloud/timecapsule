@@ -6,21 +6,15 @@ header('Content-Type: application/json; charset=utf-8');
 try {
     require_once __DIR__ . '/../vendor/autoload.php';
 
-    // Загружаем настройки окружения, если приложение использует .env.
     if (class_exists(\Dotenv\Dotenv::class)) {
-        $dotenv = \Dotenv\Dotenv::createImmutable(dirname(__DIR__));
-        $dotenv->safeLoad();
+        \Dotenv\Dotenv::createImmutable(dirname(__DIR__))->safeLoad();
     }
 
     $host = $_ENV['DB_HOST'] ?? getenv('DB_HOST') ?: 'localhost';
     $port = $_ENV['DB_PORT'] ?? getenv('DB_PORT') ?: '5432';
-    $name = $_ENV['DB_DATABASE'] ?? $_ENV['DB_NAME'] ?? getenv('DB_DATABASE') ?: '';
-    $user = $_ENV['DB_USERNAME'] ?? $_ENV['DB_USER'] ?? getenv('DB_USERNAME') ?: '';
+    $name = $_ENV['DB_NAME'] ?? getenv('DB_NAME') ?: 'timecapsule';
+    $user = $_ENV['DB_USER'] ?? getenv('DB_USER') ?: 'timecapsule';
     $password = $_ENV['DB_PASSWORD'] ?? getenv('DB_PASSWORD') ?: '';
-
-    if ($name === '' || $user === '') {
-        throw new RuntimeException('Database configuration is missing');
-    }
 
     $pdo = new PDO(
         "pgsql:host={$host};port={$port};dbname={$name}",
@@ -38,6 +32,8 @@ try {
     echo json_encode(['status' => 'ok', 'db' => 'ok']);
 
 } catch (Throwable $e) {
+    error_log('Health check failed: ' . $e->getMessage());
+
     http_response_code(503);
     echo json_encode(['status' => 'error', 'db' => 'error']);
 }
