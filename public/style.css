@@ -1,66 +1,157 @@
+:root {
+    color-scheme: light;
+    --bg: #f2eee5;
+    --surface: #fffdf8;
+    --text: #292d22;
+    --muted: #777865;
+    --line: #e2dccd;
+    --accent: #52734b;
+    --accent-hover: #405d3b;
+}
+
+* { box-sizing: border-box; }
+
 body {
+    min-height: 100vh;
     margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    color: #222;
+    background:
+        radial-gradient(ellipse at 8% 0%, rgba(130, 151, 99, .12), transparent 34rem),
+        radial-gradient(ellipse at 100% 18%, rgba(164, 119, 73, .09), transparent 30rem),
+        var(--bg);
+    color: var(--text);
+    font: 15px/1.55 Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
 }
 
 .container {
-    max-width: 1100px;
+    width: min(1120px, calc(100% - 48px));
     margin: 0 auto;
-    padding: 24px;
+    padding: 56px 0 72px;
 }
 
-button {
-    padding: 8px 12px;
-    border: 1px solid #222;
-    background: #fff;
-    color: #222;
-    text-decoration: none;
-    cursor: pointer;
+h1 {
+    margin: 0 0 34px;
+    padding-bottom: 22px;
+    border-bottom: 1px solid var(--line);
+    font-size: clamp(1.8rem, 4vw, 2.4rem);
+    font-weight: 650;
+    letter-spacing: -.045em;
+    line-height: 1.2;
 }
 
-section,
-.transaction-form {
+h2 {
+    margin: 0 0 18px;
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: -.02em;
+}
+
+section, .transaction-form {
     margin: 18px 0;
+    padding: 22px;
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    background: var(--surface);
+    box-shadow: 0 3px 12px rgba(62, 52, 34, .045);
 }
 
-.transaction-form {
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    gap: 10px;
-    max-width: 520px;
-}
-
-.transaction-form button {
-    grid-column: 2;
-}
-
-input {
-    padding: 7px;
-    border: 1px solid #aaa;
-}
+section { overflow-x: auto; }
 
 table {
     width: 100%;
     border-collapse: collapse;
-    background: #fff;
+    background: var(--surface);
+    text-align: left;
 }
 
-th,
-td {
-    padding: 8px;
-    border: 1px solid #999;
+th, td {
+    padding: 11px 13px;
+    border-bottom: 1px solid #eee9dd;
     text-align: left;
 }
 
 th {
-    background: #e7e7e7;
+    color: var(--muted);
+    background: #f5f2e9;
+    font-size: .75rem;
+    font-weight: 600;
+    letter-spacing: .045em;
+    text-transform: uppercase;
 }
+
+td { color: #4c4d3e; }
+tr:last-child td, tr:last-child th { border-bottom: 0; }
+tbody tr:hover td, tr:hover td { background: #f6f6ed; }
+
+.transaction-form {
+    display: grid;
+    grid-template-columns: 130px minmax(0, 1fr);
+    gap: 13px 16px;
+    max-width: 640px;
+    align-items: center;
+}
+
+.transaction-form label {
+    color: #656451;
+    font-size: .88rem;
+    font-weight: 500;
+}
+
+input {
+    width: 100%;
+    min-width: 0;
+    padding: 10px 12px;
+    border: 1px solid #ded8c9;
+    border-radius: 7px;
+    outline: none;
+    background: #fff;
+    color: var(--text);
+    font: inherit;
+    transition: border-color .15s, box-shadow .15s;
+}
+
+input:focus {
+    border-color: #8b9b73;
+    box-shadow: 0 0 0 3px rgba(82, 115, 75, .13);
+}
+
+button {
+    grid-column: 2;
+    justify-self: start;
+    padding: 10px 15px;
+    border: 0;
+    border-radius: 7px;
+    background: var(--accent);
+    color: #fff;
+    font-family: inherit;
+    font-size: .88rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s, transform .15s;
+}
+
+button:hover { background: var(--accent-hover); }
+button:active { transform: translateY(1px); }
 
 .message {
     display: inline-block;
-    padding: 8px 12px;
-    border: 1px solid #888;
-    background: #fff;
+    padding: 9px 13px;
+    border: 1px solid #d5dfc8;
+    border-radius: 7px;
+    background: #f1f5e9;
+    color: #45623d;
+}
+
+@media (max-width: 700px) {
+    .container { width: calc(100% - 28px); padding: 34px 0 48px; }
+    h1 { margin-bottom: 24px; }
+    section, .transaction-form { padding: 16px; }
+    table { min-width: 580px; }
+    .transaction-form { grid-template-columns: 1fr; gap: 7px; }
+    .transaction-form label { margin-top: 7px; }
+    .transaction-form button { grid-column: 1; margin-top: 9px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { transition-duration: .01ms !important; }
 }
