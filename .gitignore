@@ -4,3 +4,14 @@ Twig-3.x.zip
 /vendor/
 /.env
 /transactions.sqlite
+
+# Local storage and uploaded files
+/storage/*
+!/storage/.gitkeep
+
+# Backup files
+*.bak
+
+# Local environment files
+.env.*
+!.env.example
