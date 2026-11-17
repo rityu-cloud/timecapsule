@@ -92,3 +92,5 @@ DB_HOST не пришлось менять, потому что в ЛР3 при�
 
 ![](img/Screenshot_26.png)
 ![](img/Screenshot_28.png)
+
+![](img/arc%20(2).png)
